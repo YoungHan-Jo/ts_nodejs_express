@@ -18,11 +18,11 @@ userRouter.post('/', (req: express.Request, res: express.Response) => {
     res.status(400).send({ message: 'you should set password.' });
 
   // Mapに追加
-  let user = new User(requestBody);
-  let id = userId.nextId();
+  const user = new User(requestBody);
+  const id = userId.nextId();
   users.set(id, user);
 
-  res.send({ id: id, user: user });
+  res.send({ id, user});
 })
 
 // get users
@@ -34,8 +34,8 @@ userRouter.get('/', (req, res) => {
 // get user by id
 userRouter.get('/:id', (req, res) => {
   console.log('====get user====');
-  let id = Number(req.params.id);
-  let user = users.get(id);
+  const id = Number(req.params.id);
+  const user = users.get(id);
   if (user === undefined)
     return res.status(404).send({ message: "user doesn't exist" });
 
@@ -56,21 +56,21 @@ userRouter.put('/:id', (req, res) => {
   if (!requestBody.newPassword)
     res.status(400).send({ message: 'you should set new password.' });
 
-  let id = Number(req.params.id);
+  const id = Number(req.params.id);
 
-  let user = users.get(id);
+  const user = users.get(id);
   if (user === undefined)
     return res.status(404).send({ message: "user doesn't exist" });
 
   if (user.getPassword() != requestBody.password)
     return res.status(400).send({ message: 'wrong password' });
 
-  let updateUser = new User({ name: requestBody.name, email: requestBody.email, password: requestBody.newPassword })
+  const updateUser = new User({ name: requestBody.name, email: requestBody.email, password: requestBody.newPassword })
   users.set(id, updateUser);
 
-  user = users.get(id);
+  const findUser = users.get(id);
 
-  res.send({ id, user });
+  res.send({ id, user: findUser });
 })
 
 // delete user by id
@@ -80,9 +80,9 @@ userRouter.delete('/:id', (req, res) => {
   if (!requestBody.password)
     res.status(400).send({ message: 'you should set password.' });
 
-  let id = Number(req.params.id);
+  const id = Number(req.params.id);
 
-  let user = users.get(id);
+  const user = users.get(id);
   if (user === undefined)
     return res.status(404).send({ message: "user doesn't exist" });
 
