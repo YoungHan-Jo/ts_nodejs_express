@@ -1,13 +1,16 @@
 import express from "express";
-import { UserCreateRequestType, UserDeleteRequestType, UserUpdateRequestType } from "../../models/userRequest";
+import { UserSignupRequestType, UserDeleteRequestType, UserUpdateRequestType } from "../../models/userRequest";
 import { User } from "../../../../../domain/model/user/user";
 import { userId, users } from "../../../../../app";
+import { UsersController, UsersControllerInterface } from "../../../../../interface/controllers/users/userController";
+import { ApiError } from "../../../../../utils/customError";
 
 export const userRouter = express.Router();
+const controller: UsersControllerInterface = new UsersController();
 
 // create user
-userRouter.post('/', (req: express.Request, res: express.Response) => {
-  const requestBody: UserCreateRequestType = req.body;
+userRouter.post('/', async (req: express.Request, res: express.Response) => {
+  const requestBody: UserSignupRequestType = req.body;
   console.log('====create user====');
 
   if (!requestBody.email)
@@ -17,12 +20,16 @@ userRouter.post('/', (req: express.Request, res: express.Response) => {
   if (!requestBody.password)
     res.status(400).send({ message: 'you should set password.' });
 
-  // Mapに追加
-  const user = new User(requestBody);
-  const id = userId.nextId();
-  users.set(id, user);
 
-  res.send({ id, user});
+  await controller
+    .signUp(requestBody)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error: ApiError) => {
+      console.error(`[ERROR][API] errorStack: ${error.stack}`);
+      res.status(error.statusCode).send({ message: error.message });
+    })
 })
 
 // get users
