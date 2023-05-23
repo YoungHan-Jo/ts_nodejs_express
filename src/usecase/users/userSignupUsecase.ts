@@ -6,8 +6,8 @@ export interface UserSignupUsecaseInterface {
     /**
      * @param name
      * @param email
-     * @param rawPassword
-     * 
+     * @param rawPassword 
+     * ただパラメーターについて説明するための役割ですか？
      */
     invoke({
         name,
