@@ -11,7 +11,7 @@ server.listen(3000, () => {
     console.log('server is runnint at localhost:3000')
 });
 
-
+// master 에만 있음
 
 
 
