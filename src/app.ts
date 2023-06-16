@@ -5,26 +5,21 @@ import { User } from "./domain/model/user/user";
 import { server } from "./infrastructure/webservers/express/server";
 import { getFirestore } from "firebase-admin/firestore";
 
-
-
 server.listen(3000, () => {
-    console.log('server is runnint at localhost:3000')
+  console.log("server is runnint at localhost:3000");
 });
 
+// merge-test에만 있음
 // master 에만 있음
-
-
-
 
 // DB抜きで試し用のMap＜PK,Object＞
 export let users = new Map<number, User>();
 export let userId = {
-    id: 1,
-    nextId: function() {
-        return this.id++;
-    }
+  id: 1,
+  nextId: function () {
+    return this.id++;
+  },
 };
-
 
 // const db = getFirestore();
 
@@ -67,7 +62,6 @@ export let userId = {
 //     console.log('-------------------------------------');
 // }
 // // getTest1();
-
 
 // const getTest2 =async () => {
 //     const snapshot = await db.collection('users').get();
