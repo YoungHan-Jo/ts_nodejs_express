@@ -2,12 +2,11 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-RUN cd server
 COPY package*.json ./
 RUN npm ci --quiet
 
-COPY ./src src
-COPY ./tsconfig* ./
+COPY ./server/src src
+COPY ./server/tsconfig* ./
 
 RUN npm run build
 
