@@ -57,5 +57,5 @@ jobs:
       - name: Pull image from Amazon ECR and restart container
         run: |
           sudo docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-          sudo docker stop laj-backend && docker rm laj-backend
+          sudo docker stop laj-backend && sudo docker rm laj-backend
           sudo docker run -d --name laj-backend -p 80:3000 --restart unless-stopped ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
