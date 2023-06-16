@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY ./server/package*.json ./
 RUN npm ci --quiet
 
 COPY ./server/src src
