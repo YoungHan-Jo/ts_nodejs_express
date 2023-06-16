@@ -3,7 +3,7 @@ name: AWS ECR+EC2 CI/CD
 on:
   push:
     branches:
-      - master
+      - pr-test
 
 env:
   ECR_REGISTRY: ${{ secrets.ECR_REGISTRY_URI }}
@@ -33,7 +33,10 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         run: |
-          docker build -f server/Dockerfile -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+          docker build -f server/Dockerfile -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} \
+          --build-arg NODE_ENV=${{ secrets.NODE_ENV}} \
+          --build-arg AAA=${{ secrets.AAA }} \
+          .
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
   deploy:
     needs: build
