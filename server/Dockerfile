@@ -11,8 +11,10 @@ RUN npm ci --quiet
 COPY ./server/src src
 COPY ./server/tsconfig* ./
 
-RUN echo "NODE_ENV=$NODE_ENV" >> .env
-RUN echo "AAA=$AAA" >> .env
+COPY .env ./
+
+# RUN echo "NODE_ENV=$NODE_ENV" >> .env
+# RUN echo "AAA=$AAA" >> .env
 
 RUN npm run build
 
