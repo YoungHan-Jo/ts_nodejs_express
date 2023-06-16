@@ -5,7 +5,7 @@ const app: Application = express();
 const port: number = 3000;
 
 app.get("/toto", (req: Request, res: Response) => {
-  res.send("Hello toto update");
+  res.send("deploy automatically");
 });
 
 app.listen(port, function () {
