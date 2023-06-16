@@ -33,6 +33,9 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         run: |
+          echo "NODE_ENV=${{ secrets.NODE_ENV}}" >> .env
+          echo "AAA=${{ secrets.AAA}}" >> .env
+          cat .env
           docker build -f server/Dockerfile -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} \
           --build-arg NODE_ENV=${{ secrets.NODE_ENV}} \
           --build-arg AAA=${{ secrets.AAA }} \
