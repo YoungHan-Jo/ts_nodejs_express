@@ -2,6 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+RUN cd server
 COPY package*.json ./
 RUN npm ci --quiet
 
